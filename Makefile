@@ -2,7 +2,21 @@ PROJECT_NAME = blink
 PROJECT_DIR = .
 PROJECT_BUILD_DIR = $(PROJECT_DIR)/build
 PROJECT_SRC_DIR = $(PROJECT_DIR)/src
+##############################################################################
+# Include required HAL libs below                                            #
+##############################################################################
+SRCS =  $(RUNTIME) \
+	$(wildcard $(PROJECT_SRC_DIR)/*.c) \
+	$(wildcard $(PROJECT_SRC_DIR)/*.cpp) \
+#	$(HAL_DIR)/peripherals/Source/mik32_hal_pcc.c \
+#	$(HAL_DIR)/peripherals/Source/mik32_hal_gpio.c \
+#	$(HAL_DIR)/peripherals/Source/mik32_hal_adc.c \
+#	$(SHARED_DIR)/libs/xprintf.c \
+#	$(SHARED_DIR)/libs/uart_lib.c \
+	
 
+
+##############################################################################
 #
 TOOLCHAIN_DIR = /opt/mik32
 CROSS = /opt/riscv64/bin/riscv64-unknown-elf-
@@ -18,7 +32,7 @@ MABI = ilp32
 
 #
 SHARED_DIR = $(TOOLCHAIN_DIR)/mik32v2-shared
-HAL_DIR = $(TOOLCHAIN_DIR)/hal
+HAL_DIR = $(TOOLCHAIN_DIR)/mik32-hal
 LDSCRIPT = $(SHARED_DIR)/ldscripts/eeprom.ld
 RUNTIME = $(SHARED_DIR)/runtime/crt0.S
 
@@ -38,8 +52,6 @@ CFLAGS +=  -Os -MD -fstrict-volatile-bitfields -fno-strict-aliasing -march=$(MAR
 
 LDFLAGS +=  -nostdlib -lgcc -mcmodel=medlow -nostartfiles -ffreestanding -Wl,-Bstatic,-T,$(LDSCRIPT),-Map,$(OBJDIR)/$(PROJECT_NAME).map,--print-memory-usage -march=$(MARCH) -mabi=$(MABI) -specs=nano.specs -lnosys
 
-
-SRCS =  $(RUNTIME) $(wildcard $(PROJECT_SRC_DIR)/*.c) $(wildcard $(PROJECT_SRC_DIR)/*.cpp)
 
 OBJS := $(SRCS)
 OBJS := $(OBJS:.c=.o)
