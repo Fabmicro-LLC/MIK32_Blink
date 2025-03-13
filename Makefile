@@ -14,7 +14,7 @@ SRCS += $(HAL_DIR)/peripherals/Source/mik32_hal_gpio.c
 #SRCS += $(HAL_DIR)/peripherals/Source/mik32_hal_pcc.c
 #SRCS += $(HAL_DIR)/peripherals/Source/mik32_hal_adc.c
 	
-LIBS += 
+LIBS += -lc 
 
 ##############################################################################
 #
